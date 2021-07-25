@@ -884,7 +884,6 @@ def update_button(n_clicks, folder, value):
     folder = str(folder).strip("\"").strip("\'")    
     try:
         if n_clicks > 1:
-            #cmd_str="/home/website/ncom/bin/python3 "+BaseFolder+"main_proccess.py "+folder
             cmd_str="python3 "+BaseFolder+"main_proccess.py "+folder
             proc = subprocess.Popen([cmd_str], shell=True, stdin=None, stdout=None, stderr=None, close_fds=True)
             print("callback update_button")  
