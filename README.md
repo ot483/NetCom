@@ -20,7 +20,7 @@ Unique node color: select the color of the compounds which are differential abun
 Limit node hubness: Select the maximum allowed number of connected edges to a node.
 Set network layout iterations: NetworkX network layout itterations. Higher number would produce arranged network, but consume more time to calculate (up to few minutes).
 
-# The tool is implemented in Python 3.8 (Linux OS) using the following packages:
+# The tool is implemented in Python 3.8 (Linux OS, Anaconda) using the following packages:
 pandas 1.0.5
 plotly 4.14.1
 dash 1.18.1
