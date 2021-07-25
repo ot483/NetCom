@@ -1,0 +1,6 @@
+NetCom is a tool for predicting metabolic activities in microbial communities based  on network-based interpretation of assembled and annotated metagenomics data. The algorithm takes as input an EdgeR output file that provides information on the differential abundance of enzymatic reactions in two different treatments. Enzymes are classified as associated with Treatment_1, Treatment_2 or not associated. 
+The algorithm generates as output:
+(i) Lists of differentially abundant enzymes and their pathway association.
+(ii) Prediction of environmental resources that are unique to each treatment and their pathway association.
+(iii) Prediction of environmental compounds that are produced by the microbial community and  pathway association of compounds that are treatment-specific.
+(iv) Network visualization of enzymes, environmental resources and produced compounds that are treatment specific (2 & 3D).
