@@ -61,13 +61,20 @@ All_ECs.txt
 3D_network_<treatment_name>.html
 
 # run locally - recommended approach
+
 mkdir netcom
+
 cd netcom
+
 virtualenv netcom
+
 source netcom/bin/activate 
+
 pip install -r requirements.txt
 
+
 execute by:
+
 python app.py
 
 open browser at http://0.0.0.0:8050/netcom/
