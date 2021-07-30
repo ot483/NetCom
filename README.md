@@ -9,16 +9,16 @@ Online version
 https://freilich-lab-tools.com/netcom/
 
 # Instructions
-Input file: EdgeR results file, tab seperated consist the columns [enzyme	logFC	logCPM	PValue	FDR	association].
+Input file: EdgeR results file, tab separated consist the columns [enzyme	logFC	logCPM	PValue	FDR	association].
 After a file is uploaded, a new section appears, enables the selection of the control and the experiment treatments. 
-The selection of control and experiment treatments drives the calculatin of basic statistics which are now shown.
+The selection of control and experiment treatments drives the calculation of basic statistics which are now shown.
 Entities number in a pathway: select a range of minimum and maximum number of entities linked with a pathway in the enrichment analysis.  
-The selection of the range above a drives the enrichment analysis calculation and a new option is then enabled - 
+The selection of the range above drives the enrichment analysis calculation and a new option is then enabled - 
 Select pathways to dropout: select which pathways to drop out of the network.
 Environmental resource node color: select the color of the compounds which are essential for the network to develop (seeds).
-Unique node color: select the color of the compounds which are differential abunded due to the treatment.
+Unique node color: select the color of the compounds which are differentially abundant due to the treatment.
 Limit node hubness: Select the maximum allowed number of connected edges to a node.
-Set network layout iterations: NetworkX network layout itterations. Higher number would produce arranged network, but consume more time to calculate (up to few minutes).
+Set network layout iterations: NetworkX network layout iterations. Higher numbers would produce an arranged network, but consume more time to calculate (up to a few minutes).
 
 # The tool is implemented in Python 3.8 (Linux OS, Anaconda) using the following packages:
 pandas 1.0.5
