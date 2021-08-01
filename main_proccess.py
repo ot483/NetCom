@@ -456,7 +456,7 @@ def CreateCompoundsNetwork(folder, prefix,
                                 All_B = All_compounds_B,
                                 All_ecs_list_=All_compounds_A+All_compounds_B,
                                 input_type="metabolites", # "metabolites" or "enzymes"
-                                outputfilename=FinalFigureName+"_Metabolites",
+                                outputfilename=FinalFigureName+"_Compounds",
                                 minEntitiesInPathway=parametersDict["Min_entities_Enrichment"],
                                 maxEntitiesInPathway=parametersDict["Max_entities_Enrichment"],
                                 keep_pathways=FinalFolder_+"keep_pathways.txt"
@@ -488,29 +488,35 @@ def CreateCompoundsNetwork(folder, prefix,
     
     #Save all enrichment analyses to files
     print("saving enrichment")
-    try:
-        with open(FinalFolder_+FinalFigureName+"_enrichment_unique_metabolites.txt", 'w') as f:
-            for item in patches:
-                f.write("%s\n" % item)   
-    except Exception as e:
-        print(e)
-        print("no data to save")
+# =============================================================================
+#     try:
+#         with open(FinalFolder_+FinalFigureName+"_enrichment_unique_metabolites.txt", 'w') as f:
+#             for item in patches:
+#                 f.write("%s\n" % item)   
+#     except Exception as e:
+#         print(e)
+#         print("no data to save")
+# =============================================================================
         
-    try:
-        print("saving enrichment")
-        with open(FinalFolder_+FinalFigureName+"_enrichment_resource_metabolites.txt", 'w') as f:
-            for item in patches_seeds:
-                f.write("%s\n" % item)   
-    except:
-        print("no data to save")
+# =============================================================================
+#     try:
+#         print("saving enrichment")
+#         with open(FinalFolder_+FinalFigureName+"_enrichment_resource_metabolites.txt", 'w') as f:
+#             for item in patches_seeds:
+#                 f.write("%s\n" % item)   
+#     except:
+#         print("no data to save")
+# =============================================================================
         
-    try:
-        print("saving enrichment")
-        with open(FinalFolder_+FinalFigureName+"_enrichment_enzymes.txt", 'w') as f:
-            for item in patches_enzymes:
-                f.write("%s\n" % item)   
-    except:
-        print("no data to save")
+# =============================================================================
+#     try:
+#         print("saving enrichment")
+#         with open(FinalFolder_+FinalFigureName+"_enrichment_enzymes.txt", 'w') as f:
+#             for item in patches_enzymes:
+#                 f.write("%s\n" % item)   
+#     except:
+#         print("no data to save")
+# =============================================================================
         
     #filter by user input
     #try:
@@ -681,6 +687,14 @@ def CreateCompoundsNetwork(folder, prefix,
             enrichment_node_labels.append(i+ " " + EnrichedNodesLabelsDict[i])
     
     plt.axis('equal')    
+
+    #Constant legend
+    txt = "    Edges represent enzymes; nodes represent metabolites. Colored edges represent differentially abundant enzymes;\n\
+    colored nodes represent environmental resources and treatment specific compounds (colors are selected by the user).\n\
+    Nodes' background colors (wider circles around the nodes) represent pathways that are enriched\n\
+    (FDR adjusted P value <= 0.05) with network components (nodes) that are unique to the treated samples."
+    
+    fig.text(.13, .05, txt, ha='left', fontsize=45)
 
     #Save 2d matplotlib image to unique folder in Results    
     fig.savefig(FinalFolder_+prefix+'_Network.png', bbox_inches='tight')
@@ -938,8 +952,22 @@ def main_proccess(folder, df_el_=df_el_.copy(), df_ecMapping_=df_ecMapping_.copy
                filePath = os.path.join(folderName, filename)
                # Add file to zip
                print(filePath)
-               if (not "results.zip" in filePath) and (not "parametersDict.json" in filePath) and (not "allSubGraphs" in filePath):
-                   zipObj.write(filePath, basename(filePath))
+               if (not "results.zip" in filePath) and \
+                   (not "parametersDict.json" in filePath) and \
+                   (not "raw_input_edger.csv" in filePath) and \
+                   (not "input_edger.csv" in filePath) and \
+                   (not "keep_pathways.txt" in filePath) and \
+                   (not "All_ECs.txt" in filePath) and \
+                   (not "simulation_steps" in filePath) and \
+                   (not "Final_results" in filePath) and \
+                   (not "main_proccess_results_html" in filePath) and \
+                   (not parametersDict["treatment_col"]+"_pathway.csv" in filePath) and \
+                   (not parametersDict["comparison_col"]+"_pathway.csv" in filePath) and \
+                   (not "allSubGraphs" in filePath):
+                       zipObj.write(filePath, basename(filePath))
+       zipObj.write("./data/Readme.txt", "Readme.txt")
+    os.system("rm "+FinalFolder_+"*.txt")
+    os.system("rm "+FinalFolder_+"*.csv")
     
     print("results are compressed")
     titles = dbc.Row([

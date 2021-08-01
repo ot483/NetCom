@@ -55,7 +55,7 @@ def createParametersDict(folder):
     #write default parameters pickle file. this will be changed by the user later.
     parametersDict = {}
     parametersDict["drop_fragment_with_size"] = 1
-    parametersDict["filter_hubness"] = 50
+    parametersDict["filter_hubness"] = 25
     parametersDict["soft_color_A"] = "green"
     parametersDict["dark_color_A"] = "lime"
     parametersDict["corrected_p-val"] = 0.05
@@ -569,7 +569,7 @@ def Explore_enriched_pathways_treatment(folder):
 
     return html.Div(
                 children=[
-                    html.H3('Select enriched pathway to explore its subgraph- '+parametersDict["treatment_col"]),
+                    html.H3('Select enriched pathway to explore its subgraph - '+parametersDict["treatment_col"]),
                     dbc.Col([
                         dcc.Dropdown(id='explore-enriched-pathways-treatment-dropdown',
                             options=opts,
@@ -589,7 +589,7 @@ def Explore_enriched_pathways_control(folder):
 
     return html.Div(
                 children=[
-                    html.H3('Select enriched pathway to explore its subgraph- '+parametersDict["comparison_col"]),
+                    html.H3('Select enriched pathway to explore its subgraph - '+parametersDict["comparison_col"]),
                     dbc.Col([
                         dcc.Dropdown(id='explore-enriched-pathways-control-dropdown',
                             options=opts,
@@ -671,10 +671,13 @@ text_f = open(BaseFolder+"data/introduction.txt", "r")
 introduction_text = text_f.read()
 text_f.close()
 
+example_image_filename = './assets/NetCom_example.jpg' 
+
 introduction_text = html.Div([
                         html.H4(introduction_text, style={'whiteSpace': 'pre-wrap',
                                                           "margin-right": "60px",
                                                           "margin-left": "60px"}),
+                        html.Img(style={'height':'60%','width':'60%'}, src=example_image_filename),
                         html.Div([
                             html.A('For more information please check our publication Tal et al Microorganisms 2021', href='https://www.mdpi.com/2076-2607/8/6/840', style={'font-size':'20.8px'}),
                             html.Div(children='Data in the example file was taken from metagenomics sequencing of the root environment of wheat (Treatment 1 – \'root\') and the more distant soil not under direct effect of the plant (Treatment 2 – \'soil\').', style={'font-size':'20.8px'}),
@@ -690,7 +693,7 @@ def parameters_form():
                         network_parameters_header,
                         select_colors_seeds(),
                         select_colors_unique(),
-                        slider_node_hubness(),
+                        #slider_node_hubness(),
                         slider_network_iter(),                            
                         execution_button(),
                         html.Div(dcc.Store(id='cache', storage_type='local'))]) 
@@ -719,6 +722,7 @@ def ul():
                         # Allow multiple files to be uploaded
                         multiple=False
                     ),
+                    html.Div(id='output-data-upload-notification', children=""),
                     html.Div(id='output-data-upload', children=""),                    
                     ])
                 
@@ -822,11 +826,28 @@ def update_output(list_of_contents, folder, list_of_names, list_of_dates):
             print("callback update_output")
             return presentDatasetStatistics(folder)
 
+
+@app.callback(Output('output-data-upload-notification', 'children'),
+              [Input('upload-data', 'contents'), Input('cache', 'data')],
+              [State('upload-data', 'filename'),
+               State('upload-data', 'last_modified')])
+def Upload_notification_output(list_of_contents, folder, list_of_names, list_of_dates):
+    changed_id = [p['prop_id'] for p in dash.callback_context.triggered][0]
+    if 'upload-data' in changed_id:    
+        folder = json.loads(folder)
+        folder = str(folder).strip("\"").strip("\'")
+        print("#### #### " + folder)   
+        if list_of_contents is not None:  
+
+            return "File was uploaded"
+
+
+
+
 @app.callback(
     dash.dependencies.Output('slider-output-enrch-min-container', 'children'),
     [dash.dependencies.Input('slider-enrch-min', 'value'), Input('cache', 'data')])
 def update_enrichment_min(value, folder):
-
     update_parameters(value[0], "Min_entities_Enrichment", folder)
     update_parameters(value[1], "Max_entities_Enrichment", folder)
     print("callback update_enrichment_min")   
@@ -883,7 +904,7 @@ def update_button(n_clicks, folder, value):
     folder = json.loads(folder)
     folder = str(folder).strip("\"").strip("\'")    
     try:
-        if n_clicks > 1:
+        if n_clicks > 0:
             cmd_str="python3 "+BaseFolder+"main_proccess.py "+folder
             proc = subprocess.Popen([cmd_str], shell=True, stdin=None, stdout=None, stderr=None, close_fds=True)
             print("callback update_button")  
@@ -1089,4 +1110,4 @@ def stop_sniffer_when_results_finished(n_intervals, folder, disabled_state):
    
 
 if __name__ == '__main__':
-    app.run_server(debug=False, use_reloader=False,host='0.0.0.0')
+    app.run_server(debug=True, use_reloader=False,host='0.0.0.0')
