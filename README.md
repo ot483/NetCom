@@ -40,25 +40,15 @@ fisher exact test - scipy.stats.fisher_exact, alternative hypothesis 'greater'
 Test results and p-value correction for multiple tests - statsmodels.stats.multitest.multipletests default parameters, alpha=0.05
 
 # Output files:
-A dual set of results would be produced, one for each treatment, consists the following files:
-keep_pathways.txt
-raw_input_edger.csv
-input_edger.csv
-All_ECs.txt
-<treatment_name>_simulation_steps.csv
-<treatment_name>_resources_pathway.csv
-<treatment_name>_resources.txt
-<treatment_name>_pathway.txt
-<treatment_name>_Network.png
-<treatment_name>_Final_results.csv
-<treatment_name>_Enzymes_pathway.csv
-<treatment_name>_enrichment_unique_metabolites.txt
-<treatment_name>_enrichment_resource_metabolites.txt
-<treatment_name>_enrichment_enzymes.txt
-<treatment_name>_ECSs.txt
-<treatment_name>_metabolites_pathway.csv
-<treatment_name>_metabolites.txt
-3D_network_<treatment_name>.html
+-T1/T2_ECs: enzymatic reactions that are differentially abundant in one of the treatments (according to user's input file)
+-T1/T2_resources: a list of compounds (KEGG accessions) that were predicted as treatment-specific environmental resources
+-T1/T2_compounds: all compounds included in the treatment-specific network expanded for the treatment (KEGG accessions)
+-T1/T2_Enymes_pathways: pathways that are enriched with environmental resources that are unique to the treatment
+-T1/T2_resource_pathways: pathways that are enriched with treatment-specific environmental resources
+-T1/T2_pathways: pathways that are enriched with compounds that are unique to the treatment
+-3D_network_T1/T2: html files with 3D networks of the full treatment network or of specific pathways that are enriched with compounds that are unique to the treatment
+-T1/T1_Network: high resolution figure file of the 2D network
+-3D_network_<treatment_name>.html
 
 # run locally - recommended approach
 
