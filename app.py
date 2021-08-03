@@ -1110,4 +1110,4 @@ def stop_sniffer_when_results_finished(n_intervals, folder, disabled_state):
    
 
 if __name__ == '__main__':
-    app.run_server(debug=True, use_reloader=False,host='0.0.0.0')
+    app.run_server(debug=True, use_reloader=False)
