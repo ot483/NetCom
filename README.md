@@ -67,7 +67,7 @@ execute by:
 
 python app.py
 
-open browser at http://0.0.0.0:8050/netcom/
+open browser at http://127.0.0.1:8050/netcom/
 
 upload file for analysis
 
