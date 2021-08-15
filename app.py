@@ -18,6 +18,8 @@ import json
 import time
 import subprocess
 from pathlib import Path
+import dash_uploader as du
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BaseFolder = "./"
@@ -76,7 +78,7 @@ def createParametersDict(folder):
     json.dump([parametersDict], f)
     f.close()   
     try:
-        os.system("rm "+folder+"main_proccess_results_html.pkl")
+        os.system("rm "+folder+"main_process_results_html.pkl")
     except:
         print()
         
@@ -720,7 +722,8 @@ def ul():
                             'textAlign': 'center',
                         },
                         # Allow multiple files to be uploaded
-                        multiple=False
+                        multiple=False,
+                        max_size=-1
                     ),
                     html.Div(id='output-data-upload-notification', children=""),
                     html.Div(id='output-data-upload', children=""),                    
@@ -905,7 +908,7 @@ def update_button(n_clicks, folder, value):
     folder = str(folder).strip("\"").strip("\'")    
     try:
         if n_clicks > 0:
-            cmd_str="python3 "+BaseFolder+"main_proccess.py "+folder
+            cmd_str="python3 "+BaseFolder+"main_process.py "+folder
             proc = subprocess.Popen([cmd_str], shell=True, stdin=None, stdout=None, stderr=None, close_fds=True)
             print("callback update_button")  
             return dbc.Spinner(spinner_style={"width": "6rem", "height": "6rem"})
@@ -1011,12 +1014,12 @@ def prepare_data(value, folder):
 def check_results_creation(n_intervals,folder):
    folder = json.loads(folder)
    folder = str(folder).strip("\"").strip("\'")   
-   my_file = Path(folder+"main_proccess_results_html.pkl")
-   print("waiting for main proccess results")
-   print(folder+"main_proccess_results_html.pkl")
+   my_file = Path(folder+"main_process_results_html.pkl")
+   print("waiting for main process results")
+   print(folder+"main_process_results_html.pkl")
    if my_file.is_file():
        print("File was created!")
-       file = open(folder+"main_proccess_results_html.pkl", 'rb')
+       file = open(folder+"main_process_results_html.pkl", 'rb')
        data = pickle.load(file)
        file.close()
        exploreSubNetworksDropdowns = dbc.Row([
@@ -1076,7 +1079,7 @@ def present_subgraph_control(value, folder):
 def toggle_collapse(n_intervals, folder):
     folder = json.loads(folder)
     folder = str(folder).strip("\"").strip("\'")    
-    my_file = Path(folder+"main_proccess_results_html.pkl")
+    my_file = Path(folder+"main_process_results_html.pkl")
     if my_file.is_file():
        return {'display':'none'}
     else:
@@ -1090,7 +1093,7 @@ def toggle_collapse(n_intervals, folder):
 def download_finished_results_btn(n_intervals, folder):
     folder = json.loads(folder)
     folder = str(folder).strip("\"").strip("\'")    
-    my_file = Path(folder+"main_proccess_results_html.pkl")
+    my_file = Path(folder+"main_process_results_html.pkl")
     if my_file.is_file():
        return download_link
 
@@ -1104,7 +1107,7 @@ def download_finished_results_btn(n_intervals, folder):
 def stop_sniffer_when_results_finished(n_intervals, folder, disabled_state):
     folder = json.loads(folder)
     folder = str(folder).strip("\"").strip("\'")    
-    my_file = Path(folder+"main_proccess_results_html.pkl")
+    my_file = Path(folder+"main_process_results_html.pkl")
     if my_file.is_file():
        return not disabled_state
    
